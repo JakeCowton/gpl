@@ -7,6 +7,7 @@ import logging
 import argparse
 from typing import List
 # import crash_ipdb
+import wandb
 
 
 set_logger_format()
@@ -109,6 +110,7 @@ def train(
         train_loss = MarginDistillationLoss(model=model)
 
         # assert gpl_steps > 1000
+        wandb.watch(model)
         model.fit(
             [(train_dataloader, train_loss),],
             epochs=1,

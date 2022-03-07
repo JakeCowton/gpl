@@ -1,6 +1,7 @@
 from torch import nn, Tensor
 from typing import Iterable, Dict
 from torch.nn import functional as F
+import wandb
 
 
 class MarginDistillationLoss(nn.Module):
@@ -34,4 +35,6 @@ class MarginDistillationLoss(nn.Module):
         scores_neg = (embeddings_query * embeddings_neg).sum(dim=-1) * self.scale
         margin_pred = scores_pos - scores_neg
 
-        return self.loss_fct(margin_pred, labels)
+        loss = self.loss_fct(margin_pred, labels)
+        wandb.log({"train_loss": loss})
+        return loss

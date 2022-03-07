@@ -25,6 +25,7 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         'beir',
-        'easy-elasticsearch>=0.0.7'
+        'easy-elasticsearch>=0.0.7',
+        'wandb'
     ],
 )
