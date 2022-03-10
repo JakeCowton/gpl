@@ -35,8 +35,12 @@ def train(
     retrievers: List[str] = ['msmarco-distilbert-base-v3', 'msmarco-MiniLM-L-6-v3'],
     negatives_per_query: int = 50,
     sep:str = ' ',
-    k_values: List[int] = [10,]
-):     
+    k_values: List[int] = [10,],
+    warmup_steps: int = 1000,
+    checkpoint_save_steps: int = 10000,
+    checkpoint_save_total_limit: int = 10000,
+
+):
     #### Assertions ####
     assert pooling in [None, 'mean', 'cls', 'max']
     if do_evaluation:
@@ -115,9 +119,9 @@ def train(
             [(train_dataloader, train_loss),],
             epochs=1,
             steps_per_epoch=gpl_steps,
-            warmup_steps=1000,
-            checkpoint_save_steps=10000,
-            checkpoint_save_total_limit=10000,
+            warmup_steps=warmup_steps,
+            checkpoint_save_steps=checkpoint_save_steps,
+            checkpoint_save_total_limit=checkpoint_save_total_limit,
             output_path=output_dir,
             checkpoint_path=output_dir,
             use_amp=use_amp
@@ -164,5 +168,8 @@ if __name__ == '__main__':
     parser.add_argument('--negatives_per_query', type=int, default=50, help="Mine how many negatives per query per retriever")
     parser.add_argument('--sep', type=str, default=' ', help="Separation token between title and body text for each passage. The concatenation way is `sep.join([title, body])`")
     parser.add_argument('--k_values', nargs='+', type=int, default=[10,], help="The K values in the evaluation. This will compute nDCG@K, recall@K, precision@K and MAP@K")
+    parser.add_argument('--warmup_steps', type=int, default=10000)
+    parser.add_argument('--checkpoint_save_steps', type=int, default=10000)
+    parser.add_argument('--checkpoint_save_total_limit', type=int, default=10000)
     args = parser.parse_args()
     train(**vars(args))
