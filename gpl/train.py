@@ -39,6 +39,7 @@ def train(
     warmup_steps: int = 1000,
     checkpoint_save_steps: int = 10000,
     checkpoint_save_total_limit: int = 10000,
+    scheduler: str = "WarmupLinear",
 
 ):
     #### Assertions ####
@@ -124,7 +125,8 @@ def train(
             checkpoint_save_total_limit=checkpoint_save_total_limit,
             output_path=output_dir,
             checkpoint_path=output_dir,
-            use_amp=use_amp
+            use_amp=use_amp,
+            scheduler=scheduler,
         )
     else:
         logger.info('Trained GPL model found. Now skip training')
@@ -171,5 +173,6 @@ if __name__ == '__main__':
     parser.add_argument('--warmup_steps', type=int, default=10000)
     parser.add_argument('--checkpoint_save_steps', type=int, default=10000)
     parser.add_argument('--checkpoint_save_total_limit', type=int, default=10000)
+    parser.add_argument('--scheduler', type=str, default="WarmupLinear")
     args = parser.parse_args()
     train(**vars(args))
