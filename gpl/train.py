@@ -40,6 +40,7 @@ def train(
     checkpoint_save_steps: int = 10000,
     checkpoint_save_total_limit: int = 10000,
     scheduler: str = "WarmupLinear",
+    epochs: int = 1,
 
 ):
     #### Assertions ####
@@ -118,7 +119,7 @@ def train(
         wandb.watch(model)
         model.fit(
             [(train_dataloader, train_loss),],
-            epochs=1,
+            epochs=epochs,
             steps_per_epoch=gpl_steps,
             warmup_steps=warmup_steps,
             checkpoint_save_steps=checkpoint_save_steps,
@@ -174,5 +175,6 @@ if __name__ == '__main__':
     parser.add_argument('--checkpoint_save_steps', type=int, default=10000)
     parser.add_argument('--checkpoint_save_total_limit', type=int, default=10000)
     parser.add_argument('--scheduler', type=str, default="WarmupLinear")
+    parser.add_argument('--epochs', type=int, default=1)
     args = parser.parse_args()
     train(**vars(args))
