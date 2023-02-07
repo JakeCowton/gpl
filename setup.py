@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gpl",
-    version="0.0.9",
+    version="0.1.4",
     author="Kexin Wang",
     author_email="kexin.wang.2049@gmail.com",
     description="GPL is an unsupervised domain adaptation method for training dense retrievers. It is based on query generation and pseudo labeling with powerful cross-encoders. To train a domain-adapted model, it needs only the unlabeled target corpus and can achieve significant improvement over zero-shot models.",
@@ -25,7 +25,9 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         'beir',
-        'easy-elasticsearch>=0.0.7',
-        'wandb'
+        'easy-elasticsearch>=0.0.9',
+        'wandb',
+        'protobuf',
+        'pytest'
     ],
 )
