@@ -256,7 +256,11 @@ def train(
         )
 
         # assert gpl_steps > 1000
-        wandb.watch(model)
+        wandb.watch(
+            model,
+            criterion=train_loss,
+            log="all",
+        )
         model.fit(
             [
                 (train_dataloader, train_loss),
